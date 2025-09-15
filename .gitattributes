@@ -1,0 +1,12 @@
+# Normalize line endings for text files and avoid EOL churn
+* text=auto
+*.py text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.jsx text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+
+# Treat virtual environment files as binary - do not attempt to normalize
+Fastapi/venv/** -text
