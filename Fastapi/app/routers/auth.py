@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from app.controllers import auth as ctrl
 from app.schemas.user import UserCreate, Token, RegisterResponse, LoginRequest
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter(tags=["auth"])
 
 @router.post("/register", response_model=RegisterResponse)
 def register(data: UserCreate):

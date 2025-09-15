@@ -1,0 +1,4 @@
+# Ignore local virtual environment (relative path)
+venv/
+__pycache__/
+
