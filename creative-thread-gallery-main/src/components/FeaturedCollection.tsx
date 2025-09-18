@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from './ProductCard';
+import { ProductModal } from './ProductModal';
 import { Product } from '@/types';
 import patolaSareeImg from '@/assets/patola-saree.jpg';
 import modernKurtaImg from '@/assets/modern-kurta.jpg';
@@ -64,6 +65,19 @@ const featuredProducts: Product[] = [
 ];
 
 export const FeaturedCollection: React.FC<FeaturedCollectionProps> = ({ onViewAll }) => {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+
   return (
     <section className="py-16 bg-gradient-elegant">
       <div className="container mx-auto px-4">
@@ -79,7 +93,11 @@ export const FeaturedCollection: React.FC<FeaturedCollectionProps> = ({ onViewAl
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard 
+              key={product.id} 
+              product={product} 
+              onProductClick={handleProductClick}
+            />
           ))}
         </div>
 
@@ -94,6 +112,13 @@ export const FeaturedCollection: React.FC<FeaturedCollectionProps> = ({ onViewAl
           </Button>
         </div>
       </div>
+
+      {/* Product Modal */}
+      <ProductModal 
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </section>
   );
 };

@@ -76,14 +76,6 @@ export const DesignShowcase: React.FC<DesignShowcaseProps> = ({ onUploadDesign }
                 <Upload className="h-5 w-5 mr-2" />
                 Upload Your Design
               </Button>
-              
-              <Button 
-                variant="outline"
-                size="lg"
-                className="border-fashion-gold text-fashion-gold hover:bg-fashion-gold hover:text-white transition-all duration-300"
-              >
-                View Design Gallery
-              </Button>
             </div>
           </div>
 

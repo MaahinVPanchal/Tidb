@@ -52,31 +52,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreCollection })
               Explore Collection
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            
-            <Button 
-              variant="outline"
-              size="lg"
-              className="border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 px-8 py-4 text-lg"
-            >
-              Upload Your Design
-            </Button>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-white/20">
-            <div className="text-center lg:text-left">
-              <div className="text-3xl font-bold text-white mb-2">500+</div>
-              <div className="text-white/80 text-sm">Unique Designs</div>
-            </div>
-            <div className="text-center lg:text-left">
-              <div className="text-3xl font-bold text-white mb-2">50+</div>
-              <div className="text-white/80 text-sm">Skilled Artisans</div>
-            </div>
-            <div className="text-center lg:text-left">
-              <div className="text-3xl font-bold text-white mb-2">1000+</div>
-              <div className="text-white/80 text-sm">Happy Customers</div>
-            </div>
-          </div>
         </div>
       </div>
 

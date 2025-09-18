@@ -182,8 +182,12 @@ const NewArrivals: React.FC = () => {
             <div className="bg-white rounded-2xl shadow-luxury p-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                 <div>
-                  <div className="aspect-square bg-gradient-elegant rounded-xl flex items-center justify-center mb-4">
-                    <span className="text-muted-foreground">Featured Product Image</span>
+                  <div className="aspect-square rounded-xl overflow-hidden mb-4">
+                    <img 
+                      src={newArrivals[0].image_urls[0]}
+                      alt={newArrivals[0].name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
                 <div>
@@ -204,9 +208,6 @@ const NewArrivals: React.FC = () => {
                     </span>
                   </div>
                   
-                  <Button className="w-full bg-gradient-hero hover:opacity-90 transition-opacity">
-                    Add to Cart
-                  </Button>
                 </div>
               </div>
             </div>
@@ -217,26 +218,72 @@ const NewArrivals: React.FC = () => {
       {/* All New Arrivals */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <h2 className="text-3xl font-bold mb-4">Latest Additions</h2>
-              <p className="text-muted-foreground">
-                {newArrivals.length} new products added this month
-              </p>
-            </div>
-            <Button 
-              variant="outline"
-              onClick={() => navigate('/collections')}
-              className="border-fashion-gold text-fashion-gold hover:bg-fashion-gold hover:text-white transition-all duration-300"
-            >
-              View All Collections
-            </Button>
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold mb-4">Latest Additions</h2>
+            <p className="text-muted-foreground">
+              {newArrivals.length} new products added this month
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {newArrivals.map((product) => (
               <div key={product.id} className="relative">
-                <ProductCard product={product} />
+                <div className="group cursor-pointer overflow-hidden border-0 shadow-elegant hover:shadow-luxury transition-all duration-300 hover:scale-105 bg-white rounded-lg">
+                  <div className="relative overflow-hidden">
+                    <div className="aspect-square bg-gradient-elegant">
+                      {product.image_urls.length > 0 ? (
+                        <img 
+                          src={product.image_urls[0]} 
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-muted">
+                          <span className="text-muted-foreground">No Image</span>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Category Badge */}
+                    {product.category && (
+                      <Badge className="absolute top-4 left-4 bg-fashion-gold text-white">
+                        {product.category}
+                      </Badge>
+                    )}
+                  </div>
+
+                  <div className="p-4">
+                    <h3 className="font-semibold text-lg mb-2 line-clamp-1">{product.name}</h3>
+                    <p className="text-muted-foreground text-sm mb-3 line-clamp-2">{product.description}</p>
+                    
+                    {product.materials.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mb-3">
+                        {product.materials.slice(0, 2).map((material, index) => (
+                          <Badge key={index} variant="outline" className="text-xs">
+                            {material}
+                          </Badge>
+                        ))}
+                        {product.materials.length > 2 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{product.materials.length - 2} more
+                          </Badge>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-4 pt-0">
+                    <div className="flex flex-col">
+                      <span className="text-2xl font-bold text-fashion-rose">${product.price}</span>
+                      {product.care_instructions && (
+                        <span className="text-xs text-muted-foreground">{product.care_instructions}</span>
+                      )}
+                    </div>
+                    <div className="mt-3">
+                      <span className="text-sm text-fashion-gold font-medium">Add to cart soon arrived..</span>
+                    </div>
+                  </div>
+                </div>
                 <Badge className="absolute top-4 left-4 bg-fashion-rose text-white">
                   New
                 </Badge>

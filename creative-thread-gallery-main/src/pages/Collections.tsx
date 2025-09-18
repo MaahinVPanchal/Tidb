@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductModal } from "@/components/ProductModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -25,13 +26,13 @@ import anarkaliImg from "@/assets/anarkali.jpg";
 
 // Mock products data - in real app, this would come from API
 const mockProducts: Product[] = [
+  // PATOLA CATEGORY (5 products)
   {
     id: "1",
     name: "Traditional Patola Saree",
     price: 299.99,
     category: "patola",
-    description:
-      "Authentic double ikat silk saree with traditional geometric patterns from Patan, Gujarat.",
+    description: "Authentic double ikat silk saree with traditional geometric patterns from Patan, Gujarat.",
     materials: ["100% Pure Silk", "Natural Dyes"],
     care_instructions: "Dry clean only",
     image_urls: [patolaSareeImg],
@@ -40,37 +41,60 @@ const mockProducts: Product[] = [
   },
   {
     id: "2",
-    name: "Modern Fusion Kurta",
-    price: 89.99,
-    category: "modern",
-    description:
-      "Contemporary design with traditional elements, perfect for modern fashionistas.",
-    materials: ["Cotton Silk Blend"],
-    care_instructions: "Hand wash cold",
-    image_urls: [modernKurtaImg],
+    name: "Royal Patola Dupatta",
+    price: 199.99,
+    category: "patola",
+    description: "Exquisite Patola dupatta with traditional elephant and parrot motifs in rich silk.",
+    materials: ["Pure Silk", "Gold Zari"],
+    care_instructions: "Dry clean only",
+    image_urls: [patolaSareeImg],
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
   {
     id: "3",
-    name: "Handwoven Dupatta",
-    price: 129.99,
-    category: "accessories",
-    description:
-      "Intricately handwoven dupatta with gold thread work and traditional motifs.",
-    materials: ["Silk", "Gold Thread"],
-    care_instructions: "Dry clean recommended",
-    image_urls: [dupattaImg],
+    name: "Heritage Patola Kurta",
+    price: 159.99,
+    category: "patola",
+    description: "Traditional kurta featuring authentic Patola patterns with modern fit.",
+    materials: ["Cotton Silk", "Patola Motifs"],
+    care_instructions: "Hand wash cold",
+    image_urls: [patolaSareeImg],
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
   {
     id: "4",
+    name: "Patola Silk Stole",
+    price: 129.99,
+    category: "patola",
+    description: "Lightweight silk stole with traditional Patola border designs for formal occasions.",
+    materials: ["Pure Silk", "Traditional Weave"],
+    care_instructions: "Dry clean recommended",
+    image_urls: [patolaSareeImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "5",
+    name: "Patola Wedding Saree",
+    price: 599.99,
+    category: "patola",
+    description: "Luxury bridal Patola saree with heavy gold zari work and traditional wedding motifs.",
+    materials: ["Pure Silk", "Gold Zari", "Real Gold Threads"],
+    care_instructions: "Professional cleaning only",
+    image_urls: [patolaSareeImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+
+  // TRADITIONAL CATEGORY (5 products)
+  {
+    id: "6",
     name: "Designer Lehenga Set",
     price: 459.99,
     category: "traditional",
-    description:
-      "Exquisite lehenga set with intricate embroidery and mirror work.",
+    description: "Exquisite lehenga set with intricate embroidery and mirror work.",
     materials: ["Silk", "Zardozi Work"],
     care_instructions: "Professional cleaning only",
     image_urls: [lehengaImg],
@@ -78,12 +102,135 @@ const mockProducts: Product[] = [
     updated_at: new Date().toISOString(),
   },
   {
-    id: "5",
+    id: "7",
+    name: "Bridal Anarkali Suit",
+    price: 399.99,
+    category: "traditional",
+    description: "Stunning bridal anarkali suit with heavy embroidery and stone work.",
+    materials: ["Silk", "Heavy Embroidery", "Stone Work"],
+    care_instructions: "Dry clean only",
+    image_urls: [anarkaliImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "8",
+    name: "Traditional Churidar Set",
+    price: 249.99,
+    category: "traditional",
+    description: "Classic churidar set with traditional block prints and elegant styling.",
+    materials: ["Cotton", "Block Print"],
+    care_instructions: "Hand wash cold",
+    image_urls: [lehengaImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "9",
+    name: "Heavy Work Saree",
+    price: 349.99,
+    category: "traditional",
+    description: "Traditional saree with heavy zardozi work and intricate border designs.",
+    materials: ["Silk", "Zardozi", "Gold Thread"],
+    care_instructions: "Dry clean only",
+    image_urls: [lehengaImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "10",
+    name: "Festive Gown Set",
+    price: 299.99,
+    category: "traditional",
+    description: "Elegant gown set perfect for festivals and special occasions.",
+    materials: ["Georgette", "Embroidery", "Stone Work"],
+    care_instructions: "Dry clean recommended",
+    image_urls: [anarkaliImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+
+  // MODERN CATEGORY (5 products)
+  {
+    id: "11",
+    name: "Modern Fusion Kurta",
+    price: 89.99,
+    category: "modern",
+    description: "Contemporary design with traditional elements, perfect for modern fashionistas.",
+    materials: ["Cotton Silk Blend"],
+    care_instructions: "Hand wash cold",
+    image_urls: [modernKurtaImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "12",
+    name: "Contemporary Anarkali",
+    price: 189.99,
+    category: "modern",
+    description: "Modern take on the classic Anarkali with contemporary cuts and prints.",
+    materials: ["Georgette", "Silk Lining"],
+    care_instructions: "Dry clean recommended",
+    image_urls: [anarkaliImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "13",
+    name: "Casual Palazzo Set",
+    price: 79.99,
+    category: "modern",
+    description: "Comfortable palazzo set perfect for casual outings and office wear.",
+    materials: ["Cotton", "Rayon Blend"],
+    care_instructions: "Machine wash cold",
+    image_urls: [modernKurtaImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "14",
+    name: "Fusion Crop Top Set",
+    price: 119.99,
+    category: "modern",
+    description: "Trendy crop top with palazzo pants, perfect for modern styling.",
+    materials: ["Cotton", "Elastane"],
+    care_instructions: "Hand wash cold",
+    image_urls: [modernKurtaImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "15",
+    name: "Designer Jumpsuit",
+    price: 149.99,
+    category: "modern",
+    description: "Stylish jumpsuit with contemporary design and comfortable fit.",
+    materials: ["Viscose", "Polyester"],
+    care_instructions: "Dry clean only",
+    image_urls: [anarkaliImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+
+  // ACCESSORIES CATEGORY (5 products)
+  {
+    id: "16",
+    name: "Handwoven Dupatta",
+    price: 129.99,
+    category: "accessories",
+    description: "Intricately handwoven dupatta with gold thread work and traditional motifs.",
+    materials: ["Silk", "Gold Thread"],
+    care_instructions: "Dry clean recommended",
+    image_urls: [dupattaImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "17",
     name: "Silk Bandhani Scarf",
     price: 79.99,
     category: "accessories",
-    description:
-      "Traditional tie-dye technique from Rajasthan, perfect for any occasion.",
+    description: "Traditional tie-dye technique from Rajasthan, perfect for any occasion.",
     materials: ["Pure Silk"],
     care_instructions: "Hand wash only",
     image_urls: [bandhaniScarf],
@@ -91,15 +238,38 @@ const mockProducts: Product[] = [
     updated_at: new Date().toISOString(),
   },
   {
-    id: "6",
-    name: "Contemporary Anarkali",
-    price: 189.99,
-    category: "modern",
-    description:
-      "Modern take on the classic Anarkali with contemporary cuts and prints.",
-    materials: ["Georgette", "Silk Lining"],
-    care_instructions: "Dry clean recommended",
-    image_urls: [anarkaliImg],
+    id: "18",
+    name: "Embroidered Handbag",
+    price: 89.99,
+    category: "accessories",
+    description: "Beautiful handbag with traditional embroidery and modern design.",
+    materials: ["Fabric", "Embroidery", "Zipper"],
+    care_instructions: "Spot clean only",
+    image_urls: [dupattaImg],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "19",
+    name: "Traditional Jewelry Set",
+    price: 199.99,
+    category: "accessories",
+    description: "Elegant jewelry set with traditional designs and modern appeal.",
+    materials: ["Brass", "Gold Plated", "Stones"],
+    care_instructions: "Clean with soft cloth",
+    image_urls: [bandhaniScarf],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "20",
+    name: "Designer Clutch",
+    price: 59.99,
+    category: "accessories",
+    description: "Stylish clutch with traditional motifs and contemporary design.",
+    materials: ["Fabric", "Embellishments"],
+    care_instructions: "Dry clean only",
+    image_urls: [dupattaImg],
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
@@ -111,6 +281,8 @@ const Collections: React.FC = () => {
   const [priceRange, setPriceRange] = useState("all");
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleNavigation = (section: string) => {
@@ -127,6 +299,16 @@ const Collections: React.FC = () => {
       default:
         navigate("/");
     }
+  };
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
   };
 
   useEffect(() => {
@@ -301,7 +483,11 @@ const Collections: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    onProductClick={handleProductClick}
+                  />
                 ))}
               </div>
             </>
@@ -333,6 +519,13 @@ const Collections: React.FC = () => {
           )}
         </div>
       </section>
+
+      {/* Product Modal */}
+      <ProductModal 
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 };

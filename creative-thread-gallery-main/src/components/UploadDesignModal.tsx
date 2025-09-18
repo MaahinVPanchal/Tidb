@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Upload, X } from "lucide-react";
-import { uploadFile } from "@/lib/api";
+import { uploadFile, apiRequest, api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -101,6 +101,35 @@ export const UploadDesignModal: React.FC<UploadDesignModalProps> = ({
         title: "Design Uploaded Successfully!",
         description: "Your design has been added to your collection.",
       });
+
+      // Trigger a products list fetch so backend GET /api/products/ is called
+      try {
+        const products = await apiRequest(api.endpoints.products.list, {
+          method: "GET",
+        });
+        // Optionally we could use this `products` to refresh local UI state.
+        console.debug("Products refreshed after upload:", products);
+      } catch (err) {
+        console.warn("Failed to refresh products after upload", err);
+      }
+
+      // Also perform an explicit fetch to the same endpoint including Authorization header
+      // This mirrors the curl request more directly and ensures the network call is visible in devtools/backend logs.
+      try {
+        const token = localStorage.getItem("access_token");
+        const url = `${api.baseURL}${api.endpoints.products.list}`;
+        const res = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        });
+        const data = await res.text();
+        console.debug("Explicit fetch to products endpoint returned status", res.status, "body:", data);
+      } catch (err) {
+        console.warn("Explicit fetch to products endpoint failed", err);
+      }
 
       onClose();
       // Navigate to collections so the user can see the uploaded product
@@ -213,11 +242,11 @@ export const UploadDesignModal: React.FC<UploadDesignModalProps> = ({
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="clothing">Clothing</SelectItem>
+            <SelectItem value="all">All Categories</SelectItem>
+            <SelectItem value="patola">Patola</SelectItem>
+            <SelectItem value="traditional">Traditional</SelectItem>
+            <SelectItem value="modern">Modern</SelectItem>
             <SelectItem value="accessories">Accessories</SelectItem>
-            <SelectItem value="home">Home</SelectItem>
-            <SelectItem value="art">Art</SelectItem>
-            <SelectItem value="other">Other</SelectItem>
           </SelectContent>
         </Select>
       </div>

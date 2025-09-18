@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Heart, ShoppingBag, Upload, Menu, MessageCircle, User } from 'lucide-react';
+import { ShoppingBag, Upload, Menu, MessageCircle, User } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { UploadDesignModal } from './UploadDesignModal';
@@ -22,9 +22,6 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
 
-  const handleExploreCollection = () => {
-    onNavigate('new-arrivals');
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -63,13 +60,6 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
             >
               About
             </Button>
-            <Button 
-              variant="outline" 
-              className="border-fashion-gold text-fashion-gold hover:bg-fashion-gold hover:text-white transition-all duration-300"
-              onClick={handleExploreCollection}
-            >
-              Explore Collection
-            </Button>
           </nav>
 
           {/* Actions */}
@@ -85,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
                   <Upload className="h-5 w-5" />
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-md">
+              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                   <DialogTitle>Upload Your Design</DialogTitle>
                 </DialogHeader>
@@ -103,14 +93,6 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
               <MessageCircle className="h-5 w-5" />
             </Button>
 
-            {/* Favorites */}
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="hover:text-fashion-rose transition-colors"
-            >
-              <Heart className="h-5 w-5" />
-            </Button>
 
             {/* Shopping Cart */}
             <Sheet>
@@ -193,13 +175,6 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
                     onClick={() => onNavigate('about')}
                   >
                     About
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    className="justify-start border-fashion-gold text-fashion-gold"
-                    onClick={handleExploreCollection}
-                  >
-                    Explore Collection
                   </Button>
                 </div>
               </SheetContent>

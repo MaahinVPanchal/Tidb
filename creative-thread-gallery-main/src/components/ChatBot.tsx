@@ -9,7 +9,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Send, Bot, User } from "lucide-react";
-import { apiRequest } from "@/lib/api";
+import { apiRequest, api } from "@/lib/api";
+import { ProductModal } from "@/components/ProductModal";
+import { Product } from "@/types";
 
 interface ProductPayload {
   id?: string;
@@ -47,6 +49,8 @@ export const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose }) => {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [modalProduct, setModalProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getBotResponse = (userMessage: string): string => {
     const lowerMessage = userMessage.toLowerCase();
@@ -249,17 +253,35 @@ export const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose }) => {
                           Price: {message.product.price ?? "N/A"}
                         </div>
                         {message.product.id || message.product.uuid ? (
-                          <a
-                            href={
-                              message.product.url ||
-                              `#/products/${
-                                message.product.id || message.product.uuid
-                              }`
-                            }
+                          // Replace simple anchor with an action that fetches full product details
+                          <button
+                            onClick={async () => {
+                              const id =
+                                message.product?.id || message.product?.uuid;
+                              if (!id) return;
+                              try {
+                                const prod: any = await apiRequest(
+                                  api.endpoints.products.get(id),
+                                  {
+                                    method: "GET",
+                                  }
+                                );
+                                // Normalize to Product type for modal
+                                setModalProduct(prod as Product);
+                                setIsModalOpen(true);
+                              } catch (e: any) {
+                                console.error(
+                                  "Failed to fetch product details",
+                                  e
+                                );
+                                // fallback: navigate to product page hash link
+                                window.location.hash = `/products/${id}`;
+                              }
+                            }}
                             className="text-xs text-fashion-rose hover:underline block mt-1"
                           >
                             View product
-                          </a>
+                          </button>
                         ) : null}
                       </div>
                     </div>
@@ -310,6 +332,12 @@ export const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose }) => {
             <Send className="h-4 w-4" />
           </Button>
         </div>
+        {/* Product detail modal for showing fetched product info */}
+        <ProductModal
+          product={modalProduct}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );

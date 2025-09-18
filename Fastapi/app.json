@@ -65,7 +65,7 @@
               "formdata": [
                 { "key": "name", "value": "Test Product", "type": "text" },
                 { "key": "price", "value": "99.99", "type": "text" },
-                { "key": "category", "value": "clothing", "type": "text" },
+                { "key": "category", "value": "traditional", "type": "text" },
                 {
                   "key": "description",
                   "value": "A great product",

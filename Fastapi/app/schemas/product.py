@@ -7,11 +7,11 @@ import re
 from urllib.parse import urlparse
 
 class ProductCategory(str, Enum):
-    CLOTHING = "clothing"
+    ALL = "all"
+    PATOLA = "patola"
+    TRADITIONAL = "traditional"
+    MODERN = "modern"
     ACCESSORIES = "accessories"
-    HOME = "home"
-    ART = "art"
-    OTHER = "other"
 
 class ProductBase(BaseModel):
     name: str = Field(
@@ -176,7 +176,7 @@ class ProductSearchResult(ProductInDB):
                 "name": "Classic Cotton T-Shirt",
                 "description": "A comfortable and stylish t-shirt made from 100% organic cotton.",
                 "price": 29.99,
-                "category": "clothing",
+                "category": "traditional",
                 "materials": ["cotton"],
                 "care_instructions": "Machine wash cold. Tumble dry low.",
                 "image_urls": ["https://example.com/images/tshirt.jpg"],

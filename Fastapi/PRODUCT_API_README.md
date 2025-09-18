@@ -41,7 +41,7 @@ Create a new product with optional image upload for AI analysis.
 **Form Data:**
 - `name` (string, required): Product name
 - `price` (float, required): Product price in USD
-- `category` (string, required): Product category (clothing, accessories, home, art, other)
+- `category` (string, required): Product category (all, patola, traditional, modern, accessories)
 - `description` (string, optional): Product description
 - `materials` (JSON array, optional): List of materials
 - `care_instructions` (string, required): Care instructions
@@ -54,7 +54,7 @@ curl -X POST "http://localhost:8000/api/products/" \
   -H "accept: application/json" \
   -F "name=Handcrafted Ceramic Mug" \
   -F "price=24.99" \
-  -F "category=home" \
+  -F "category=traditional" \
   -F "description=A beautiful handcrafted ceramic mug" \
   -F "materials=[\"ceramic\",\"glaze\"]" \
   -F "care_instructions=Hand wash only" \

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
@@ -7,6 +8,7 @@ import { useCart } from '@/contexts/CartContext';
 
 export const CartSheet: React.FC = () => {
   const { state, dispatch } = useCart();
+  const navigate = useNavigate();
 
   const updateQuantity = (productId: string, quantity: number) => {
     dispatch({ type: 'UPDATE_QUANTITY', productId, quantity });
@@ -108,7 +110,10 @@ export const CartSheet: React.FC = () => {
         </div>
 
         <div className="space-y-2">
-          <Button className="w-full bg-gradient-hero hover:opacity-90 transition-opacity">
+          <Button 
+            className="w-full bg-gradient-hero hover:opacity-90 transition-opacity"
+            onClick={() => navigate('/checkout')}
+          >
             Proceed to Checkout
           </Button>
           <Button variant="outline" className="w-full" onClick={clearCart}>

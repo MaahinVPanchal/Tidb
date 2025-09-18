@@ -120,7 +120,7 @@ const Index = () => {
 
       {/* Upload Design Modal */}
       <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Upload Your Design</DialogTitle>
           </DialogHeader>
